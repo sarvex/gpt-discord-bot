@@ -22,9 +22,8 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
         field = message.reference.cached_message.embeds[0].fields[0]
         if field.value:
             return Message(user=field.name, text=field.value)
-    else:
-        if message.content:
-            return Message(user=message.author.name, text=message.content)
+    elif message.content:
+        return Message(user=message.author.name, text=message.content)
     return None
 
 
@@ -60,7 +59,7 @@ async def close_thread(thread: discord.Thread):
 def should_block(guild: Optional[discord.Guild]) -> bool:
     if guild is None:
         # dm's not supported
-        logger.info(f"DM not supported")
+        logger.info("DM not supported")
         return True
 
     if guild.id and guild.id not in ALLOWED_SERVER_IDS:

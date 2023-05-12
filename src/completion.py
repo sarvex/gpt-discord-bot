@@ -83,13 +83,12 @@ async def generate_completion_response(
             return CompletionData(
                 status=CompletionResult.TOO_LONG, reply_text=None, status_text=str(e)
             )
-        else:
-            logger.exception(e)
-            return CompletionData(
-                status=CompletionResult.INVALID_REQUEST,
-                reply_text=None,
-                status_text=str(e),
-            )
+        logger.exception(e)
+        return CompletionData(
+            status=CompletionResult.INVALID_REQUEST,
+            reply_text=None,
+            status_text=str(e),
+        )
     except Exception as e:
         logger.exception(e)
         return CompletionData(
@@ -108,7 +107,7 @@ async def process_response(
         if not reply_text:
             sent_message = await thread.send(
                 embed=discord.Embed(
-                    description=f"**Invalid response** - empty response",
+                    description="**Invalid response** - empty response",
                     color=discord.Color.yellow(),
                 )
             )
@@ -127,7 +126,7 @@ async def process_response(
 
             await thread.send(
                 embed=discord.Embed(
-                    description=f"⚠️ **This conversation has been flagged by moderation.**",
+                    description="⚠️ **This conversation has been flagged by moderation.**",
                     color=discord.Color.yellow(),
                 )
             )
@@ -141,7 +140,7 @@ async def process_response(
 
         await thread.send(
             embed=discord.Embed(
-                description=f"❌ **The response has been blocked by moderation.**",
+                description="❌ **The response has been blocked by moderation.**",
                 color=discord.Color.red(),
             )
         )
